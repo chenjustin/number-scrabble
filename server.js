@@ -3,6 +3,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const app = express();
+const path = require('path');
 
 // process.env.PORT lets the port be set by Heroku
 const port = process.env.PORT || 3000;
@@ -20,6 +21,10 @@ app.use(webpackDevMiddleware(compiler, {
   },
   historyApiFallback: true,
 }));
+
+app.get('/', function(req, res){
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
  
 const server = app.listen(port, function() {
   const host = server.address().address;
