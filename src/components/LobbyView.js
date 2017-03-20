@@ -8,7 +8,7 @@ class LobbyView extends React.Component {
   render() {
     return (
       <div>
-        PlayerName: this.props.playerName;
+        PlayerName: {this.props.playerName}
       </div>
     );
   }

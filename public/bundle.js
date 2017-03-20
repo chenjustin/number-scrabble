@@ -9566,26 +9566,55 @@ var GameApp = function (_React$Component) {
     };
 
     _this.updatePlayerName = _this.updatePlayerName.bind(_this);
+    _this.updateView = _this.updateView.bind(_this);
     return _this;
   }
 
   _createClass(GameApp, [{
     key: 'updatePlayerName',
     value: function updatePlayerName(name) {
-      this.setState({ playerName: name });
-      console.log(this.state.playerName);
-      console.log(this.state);
+      this.setState({
+        playerName: name,
+        view: 'LobbyView'
+      });
+    }
+  }, {
+    key: 'updateView',
+    value: function updateView(v) {
+      this.setState({ view: v });
     }
   }, {
     key: 'render',
     value: function render() {
+      switch (this.state.view) {
+        case "NewPlayerView":
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(_Navbar2.default, null),
+            _react2.default.createElement(_NewPlayerView2.default, { updateName: this.updatePlayerName }),
+            _react2.default.createElement(_Footer2.default, null)
+          );
 
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(_Navbar2.default, null),
-        _react2.default.createElement(_Footer2.default, null)
-      );
+        case "LobbyView":
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(_LobbyView2.default, {
+              updateView: this.updateView,
+              playerName: this.state.playerName
+            })
+          );
+
+        default:
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(_Navbar2.default, null),
+            _react2.default.createElement(_NewPlayerView2.default, { updateName: this.updatePlayerName }),
+            _react2.default.createElement(_Footer2.default, null)
+          );
+      }
     }
   }]);
 
@@ -9634,7 +9663,8 @@ var LobbyView = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        'PlayerName: this.props.playerName;'
+        'PlayerName: ',
+        this.props.playerName
       );
     }
   }]);

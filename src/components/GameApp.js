@@ -13,24 +13,52 @@ class GameApp extends React.Component {
     };
 
     this.updatePlayerName = this.updatePlayerName.bind(this);
+    this.updateView = this.updateView.bind(this);
   }
 
   updatePlayerName(name) {
-    this.setState({playerName: name});
-    console.log(this.state.playerName);
-    console.log(this.state)
+    this.setState({
+      playerName: name,
+      view: 'LobbyView'
+    });
+  }
+
+  updateView(v){
+    this.setState({view: v});
   }
  
   render() {
+    switch(this.state.view){
+      case "NewPlayerView":
+        return(
+          <div>
+            <Navbar/>
+            <NewPlayerView updateName = {this.updatePlayerName}/>
+            <Footer/>
+          </div>
+        );
+
+      case "LobbyView":
+        return(
+          <div>
+
+            <LobbyView 
+              updateView = {this.updateView}
+              playerName = {this.state.playerName}
+            />
+          </div>
+        );
 
 
-
-    return (
-      <div>
-        <Navbar/>
-        <Footer/>
-      </div>
-    );
+      default:
+        return(
+          <div>
+            <Navbar/>
+            <NewPlayerView updateName = {this.updatePlayerName}/>
+            <Footer/>
+          </div>
+        );
+    }
   }
 }
 export default GameApp;
