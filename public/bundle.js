@@ -9552,6 +9552,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var socket;
+
 var GameApp = function (_React$Component) {
   _inherits(GameApp, _React$Component);
 
@@ -9561,8 +9563,10 @@ var GameApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (GameApp.__proto__ || Object.getPrototypeOf(GameApp)).call(this));
 
     _this.state = {
+      onlineUsers: [],
       playerName: '',
-      view: 'NewPlayerView'
+      view: 'NewPlayerView',
+      id: -2
     };
 
     _this.updatePlayerName = _this.updatePlayerName.bind(_this);
@@ -9571,11 +9575,26 @@ var GameApp = function (_React$Component) {
   }
 
   _createClass(GameApp, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      socket = io('/lobby', { query: "playerName=" + this.state.playerName });
+      socket.on('assign-id', function (payload) {
+        GameApp.updateId(payload.data);
+      });
+    }
+  }, {
     key: 'updatePlayerName',
     value: function updatePlayerName(name) {
       this.setState({
         playerName: name,
         view: 'LobbyView'
+      });
+    }
+  }, {
+    key: 'updateId',
+    value: function updateId(data) {
+      this.setState({
+        id: data
       });
     }
   }, {

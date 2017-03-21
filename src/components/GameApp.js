@@ -3,23 +3,40 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import NewPlayerView from './NewPlayerView';
 import LobbyView from './LobbyView';
- 
+
+var socket;
+
 class GameApp extends React.Component {
   constructor() {
     super();
     this.state = {
+      onlineUsers: [],
       playerName: '',
       view: 'NewPlayerView',
+      id: -2
     };
 
     this.updatePlayerName = this.updatePlayerName.bind(this);
     this.updateView = this.updateView.bind(this);
   }
 
+  componentDidUpdate(){
+    socket = io('/lobby', {query: "playerName="+this.state.playerName});
+    socket.on('assign-id', function(payload){
+      GameApp.updateId(payload.data);
+    });
+  }
+
   updatePlayerName(name) {
     this.setState({
       playerName: name,
       view: 'LobbyView'
+    });
+  }
+
+  updateId(data){
+    this.setState({
+      id: data
     });
   }
 
@@ -41,7 +58,6 @@ class GameApp extends React.Component {
       case "LobbyView":
         return(
           <div>
-
             <LobbyView 
               updateView = {this.updateView}
               playerName = {this.state.playerName}
@@ -61,4 +77,5 @@ class GameApp extends React.Component {
     }
   }
 }
+
 export default GameApp;
