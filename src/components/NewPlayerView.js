@@ -22,11 +22,8 @@ class NewPlayerView extends React.Component {
     return (
       <div>
       	<form onSubmit={this.handleSubmit}>
-      		<label>
-      			Name:
-      			<input type="text" value={this.state.value} onChange={this.handleChange} />
-      		</label>
-      		<input type="submit" value="Submit"/>
+    			<input type="text" value={this.state.value} id={"newUserInput"} onChange={this.handleChange} placeholder={"Enter your name to begin"}/>
+      		<input type="submit" value="Join!" id={"newUserButton"}/>
       	</form>
       </div>
     );

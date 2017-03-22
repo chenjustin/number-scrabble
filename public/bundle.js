@@ -9462,56 +9462,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(20);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Footer = function (_React$Component) {
-  _inherits(Footer, _React$Component);
-
-  function Footer() {
-    _classCallCheck(this, Footer);
-
-    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
-  }
-
-  _createClass(Footer, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        'Omgo'
-      );
-    }
-  }]);
-
-  return Footer;
-}(_react2.default.Component);
-
-exports.default = Footer;
-
-/***/ }),
+/* 81 */,
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9527,14 +9478,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(20);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _Navbar = __webpack_require__(84);
-
-var _Navbar2 = _interopRequireDefault(_Navbar);
-
-var _Footer = __webpack_require__(81);
-
-var _Footer2 = _interopRequireDefault(_Footer);
 
 var _NewPlayerView = __webpack_require__(85);
 
@@ -9565,8 +9508,7 @@ var GameApp = function (_React$Component) {
     _this.state = {
       onlineUsers: [],
       playerName: '',
-      view: 'NewPlayerView',
-      id: -2
+      view: 'NewPlayerView'
     };
 
     _this.updatePlayerName = _this.updatePlayerName.bind(_this);
@@ -9575,26 +9517,11 @@ var GameApp = function (_React$Component) {
   }
 
   _createClass(GameApp, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      socket = io('/lobby', { query: "playerName=" + this.state.playerName });
-      socket.on('assign-id', function (payload) {
-        GameApp.updateId(payload.data);
-      });
-    }
-  }, {
     key: 'updatePlayerName',
     value: function updatePlayerName(name) {
       this.setState({
         playerName: name,
         view: 'LobbyView'
-      });
-    }
-  }, {
-    key: 'updateId',
-    value: function updateId(data) {
-      this.setState({
-        id: data
       });
     }
   }, {
@@ -9610,28 +9537,61 @@ var GameApp = function (_React$Component) {
           return _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_Navbar2.default, null),
-            _react2.default.createElement(_NewPlayerView2.default, { updateName: this.updatePlayerName }),
-            _react2.default.createElement(_Footer2.default, null)
+            _react2.default.createElement(
+              'header',
+              null,
+              _react2.default.createElement(
+                'span',
+                { id: "title" },
+                'Number Scrabble'
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: "main-container" },
+              _react2.default.createElement(_NewPlayerView2.default, { updateName: this.updatePlayerName })
+            )
           );
 
         case "LobbyView":
           return _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_LobbyView2.default, {
-              updateView: this.updateView,
-              playerName: this.state.playerName
-            })
+            _react2.default.createElement(
+              'header',
+              null,
+              _react2.default.createElement(
+                'span',
+                { id: "title" },
+                'Number Scrabble'
+              ),
+              _react2.default.createElement(
+                'span',
+                { id: "headerPlayerName" },
+                'Player: ',
+                this.state.playerName
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: "main-container" },
+              _react2.default.createElement(_LobbyView2.default, {
+                updateView: this.updateView,
+                playerName: this.state.playerName
+              })
+            )
           );
 
         default:
           return _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_Navbar2.default, null),
-            _react2.default.createElement(_NewPlayerView2.default, { updateName: this.updatePlayerName }),
-            _react2.default.createElement(_Footer2.default, null)
+            _react2.default.createElement('header', null),
+            _react2.default.createElement(
+              'div',
+              { className: "main-container" },
+              _react2.default.createElement(_NewPlayerView2.default, { updateName: this.updatePlayerName })
+            )
           );
       }
     }
@@ -9667,6 +9627,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var socket;
+
 var LobbyView = function (_React$Component) {
   _inherits(LobbyView, _React$Component);
 
@@ -9677,6 +9639,11 @@ var LobbyView = function (_React$Component) {
   }
 
   _createClass(LobbyView, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      socket = io('/lobby', { query: "playerName=" + this.props.playerName });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -9694,56 +9661,7 @@ var LobbyView = function (_React$Component) {
 exports.default = LobbyView;
 
 /***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(20);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Navbar = function (_React$Component) {
-  _inherits(Navbar, _React$Component);
-
-  function Navbar() {
-    _classCallCheck(this, Navbar);
-
-    return _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).apply(this, arguments));
-  }
-
-  _createClass(Navbar, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        'Yo'
-      );
-    }
-  }]);
-
-  return Navbar;
-}(_react2.default.Component);
-
-exports.default = Navbar;
-
-/***/ }),
+/* 84 */,
 /* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9751,7 +9669,7 @@ exports.default = Navbar;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -9769,54 +9687,49 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var NewPlayerView = function (_React$Component) {
-  _inherits(NewPlayerView, _React$Component);
+	_inherits(NewPlayerView, _React$Component);
 
-  function NewPlayerView(props) {
-    _classCallCheck(this, NewPlayerView);
+	function NewPlayerView(props) {
+		_classCallCheck(this, NewPlayerView);
 
-    var _this = _possibleConstructorReturn(this, (NewPlayerView.__proto__ || Object.getPrototypeOf(NewPlayerView)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (NewPlayerView.__proto__ || Object.getPrototypeOf(NewPlayerView)).call(this, props));
 
-    _this.state = { value: '' };
+		_this.state = { value: '' };
 
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    return _this;
-  }
+		_this.handleChange = _this.handleChange.bind(_this);
+		_this.handleSubmit = _this.handleSubmit.bind(_this);
+		return _this;
+	}
 
-  _createClass(NewPlayerView, [{
-    key: 'handleChange',
-    value: function handleChange(e) {
-      this.setState({ value: e.target.value });
-      console.log(this.state);
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      this.props.updateName(this.state.value);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'form',
-          { onSubmit: this.handleSubmit },
-          _react2.default.createElement(
-            'label',
-            null,
-            'Name:',
-            _react2.default.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
-          ),
-          _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
-        )
-      );
-    }
-  }]);
+	_createClass(NewPlayerView, [{
+		key: 'handleChange',
+		value: function handleChange(e) {
+			this.setState({ value: e.target.value });
+			console.log(this.state);
+		}
+	}, {
+		key: 'handleSubmit',
+		value: function handleSubmit(e) {
+			e.preventDefault();
+			this.props.updateName(this.state.value);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'form',
+					{ onSubmit: this.handleSubmit },
+					_react2.default.createElement('input', { type: 'text', value: this.state.value, id: "newUserInput", onChange: this.handleChange, placeholder: "Enter your name to begin" }),
+					_react2.default.createElement('input', { type: 'submit', value: 'Join!', id: "newUserButton" })
+				)
+			);
+		}
+	}]);
 
-  return NewPlayerView;
+	return NewPlayerView;
 }(_react2.default.Component);
 
 exports.default = NewPlayerView;

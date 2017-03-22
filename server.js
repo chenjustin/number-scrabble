@@ -45,8 +45,6 @@ lobby.on('connection', function(socket){
   var id = idNumber;
   idNumber++;
 
-  socket.emit('assign-id', {data: id});
-
   // Not sure if this is necessary
 
   if(id > 9500){

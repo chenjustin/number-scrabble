@@ -1,6 +1,75 @@
+
+*, *:after, *:before{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html{
+	height: 100%;
+}
 body{
 	margin: 0;
+	position: relative;
 }
-div{
-  background-color: #D3CC99;
+
+/* GameApp container stuff */
+
+header{
+	height: 70px;
+	background-color: #A39C79;
+	white-space: nowrap;
+}
+
+#title{
+	font-family: 'Rock Salt', cursive;
+	font-size: 30px;
+	padding-top: 6px;
+	padding-left: 20px;
+	color: white;
+}
+#headerPlayerName{
+	float: right;
+	font-size: 20px;
+	color: #fff;
+	font-family: Tahoma, Geneva, sans-serif;
+	padding: 20px;
+	white-space: nowrap;
+}
+footer{
+	height: 50px;
+	background-color: #D3CC99;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	padding: 1rem;
+}
+.main-container{
+	background-color: #272822;
+	height: calc(100% - 70px);
+	padding-top: 25px;
+	padding-left: 15%;
+	padding-right: 15%;
+}
+
+
+/* NewPlayerView */
+
+#newUserInput{
+	width: calc(100% - 100px);
+	height: 80px;
+	margin-top: 50px;
+	padding: 10px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 33px;
+	vertical-align: bottom;
+}
+
+#newUserButton{
+	width: 100px;
+	height: 80px;
+	vertical-align: bottom;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 33px;
 }

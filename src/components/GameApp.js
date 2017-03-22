@@ -1,6 +1,4 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
 import NewPlayerView from './NewPlayerView';
 import LobbyView from './LobbyView';
 
@@ -12,31 +10,17 @@ class GameApp extends React.Component {
     this.state = {
       onlineUsers: [],
       playerName: '',
-      view: 'NewPlayerView',
-      id: -2
+      view: 'NewPlayerView'
     };
 
     this.updatePlayerName = this.updatePlayerName.bind(this);
     this.updateView = this.updateView.bind(this);
   }
 
-  componentDidUpdate(){
-    socket = io('/lobby', {query: "playerName="+this.state.playerName});
-    socket.on('assign-id', function(payload){
-      GameApp.updateId(payload.data);
-    });
-  }
-
   updatePlayerName(name) {
     this.setState({
       playerName: name,
       view: 'LobbyView'
-    });
-  }
-
-  updateId(data){
-    this.setState({
-      id: data
     });
   }
 
@@ -49,19 +33,28 @@ class GameApp extends React.Component {
       case "NewPlayerView":
         return(
           <div>
-            <Navbar/>
-            <NewPlayerView updateName = {this.updatePlayerName}/>
-            <Footer/>
+            <header>
+              <span id={"title"}>Number Scrabble</span>
+            </header>
+            <div className={"main-container"}>
+              <NewPlayerView updateName = {this.updatePlayerName}/>
+            </div>
           </div>
         );
 
       case "LobbyView":
         return(
           <div>
-            <LobbyView 
-              updateView = {this.updateView}
-              playerName = {this.state.playerName}
-            />
+            <header>
+              <span id={"title"}>Number Scrabble</span>
+              <span id={"headerPlayerName"}>Player: {this.state.playerName}</span>
+            </header>
+            <div className={"main-container"}>
+              <LobbyView 
+                updateView = {this.updateView}
+                playerName = {this.state.playerName}
+              />
+            </div>
           </div>
         );
 
@@ -69,9 +62,10 @@ class GameApp extends React.Component {
       default:
         return(
           <div>
-            <Navbar/>
-            <NewPlayerView updateName = {this.updatePlayerName}/>
-            <Footer/>
+            <header></header>
+            <div className={"main-container"}>
+              <NewPlayerView updateName = {this.updatePlayerName}/>
+            </div>
           </div>
         );
     }
