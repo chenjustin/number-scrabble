@@ -16,11 +16,13 @@ class NewPlayerView extends React.Component {
 
 	handleSubmit(e){
 		e.preventDefault();
-		this.props.updateName(this.state.value);
+		if(this.state.value.length > 0){
+			this.props.updateName(this.state.value);
+		}
 	}
   render() {
     return (
-      <div>
+      <div className={"view-container"}>
       	<form onSubmit={this.handleSubmit}>
     			<input type="text" value={this.state.value} id={"newUserInput"} onChange={this.handleChange} placeholder={"Enter your name to begin"}/>
       		<input type="submit" value="Join!" id={"newUserButton"}/>

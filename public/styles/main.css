@@ -5,12 +5,14 @@
   box-sizing: border-box;
 }
 
-html{
+html, body{
 	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0px;
+	overflow-x: hidden;
 }
 body{
-	margin: 0;
-	position: relative;
 }
 
 /* GameApp container stuff */
@@ -28,6 +30,7 @@ header{
 	padding-left: 20px;
 	color: white;
 }
+
 #headerPlayerName{
 	float: right;
 	font-size: 20px;
@@ -36,34 +39,47 @@ header{
 	padding: 20px;
 	white-space: nowrap;
 }
-footer{
-	height: 50px;
-	background-color: #D3CC99;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	padding: 1rem;
-}
+
 .main-container{
 	background-color: #272822;
 	height: calc(100% - 70px);
 	padding-top: 25px;
-	padding-left: 15%;
-	padding-right: 15%;
+	padding-left: 250px;
+	padding-right: 250px;
+}
+
+/* view-contaier */
+.view-container{
+	white-space: nowrap;
 }
 
 
 /* NewPlayerView */
 
 #newUserInput{
+	/*
+	min-width: 413px;
+	*/
 	width: calc(100% - 100px);
 	height: 80px;
-	margin-top: 50px;
+	margin-top: 300px;
 	padding: 10px;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 33px;
 	vertical-align: bottom;
+	border-width: 5px;
+	border-color: #D3CC99;
+	border-style: solid;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+#newUserInput:focus{
+	border-width: 5px;
+	border-color: #9ecaed;
+	outline: none;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 #newUserButton{
@@ -72,4 +88,67 @@ footer{
 	vertical-align: bottom;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 33px;
+	border-color: #D3CC99;
+	border-width: 5px;
+	border-style: solid;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+#newUserButton:focus{
+	border-width: 5px;
+	border-color: #9ecaed;
+	outline: none;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+@media (max-width: 1024px){
+
+	.main-container{
+		background-color: #272822;
+		height: calc(100% - 70px);
+		padding-top: 25px;
+		padding-left: 125px;
+		padding-right: 125px;
+	}
+
+	#newUserInput{
+		min-width: calc(100% - 100px);
+		height: 70px;
+		padding: 10px;
+		font-family: Tahoma, Geneva, sans-serif;
+		font-size: 30px;
+	}
+
+	#newUserButton{
+		width: 100px;
+		height: 70px;
+		font-size: 30px;
+	}
+}
+
+@media (max-width: 640px){
+
+	.main-container{
+		background-color: #272822;
+		height: calc(100% - 70px);
+		padding-top: 25px;
+		padding-left: 75px;
+		padding-right: 75px;
+	}
+
+	#newUserInput{
+		min-width: calc(100% - 100px);
+		height: 60px;
+		padding: 10px;
+		font-family: Tahoma, Geneva, sans-serif;
+		font-size: 24px;
+	}
+
+	#newUserButton{
+		width: 100px;
+		height: 60px;
+		font-size: 24px;
+	}
 }
