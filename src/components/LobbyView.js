@@ -55,7 +55,7 @@ class LobbyView extends React.Component {
     if(this.state.onlinePlayers.length === 0){
       return (
         <div className={'view-container'} id={'lobby-container'}>
-          <h1>No users online</h1>
+          <p>No users onliwtfne</p>
         </div>
       )
     }
