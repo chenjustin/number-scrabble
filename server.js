@@ -41,20 +41,26 @@ http.listen(port, function(){
 
 lobby.on('connection', function(socket){
 
-  onlineUsers.push({name: socket.handshake.query.playerName, id: idNumber});
+  // The server keeps track of all online users
+  onlineUsers.push({playerName: socket.handshake.query.playerName, id: idNumber});
   var id = idNumber;
   idNumber++;
 
   // Not sure if this is necessary
-
   if(id > 9500){
     id = 0;
   }
 
-  socket.on('disconnect', function(socket){
+  lobby.emit('update-list', onlineUsers);
+
+  console.log('User connected. List: ' + onlineUsers);
+
+  socket.on('disconnect', function(){
     onlineUsers.forEach(function(element, index){
       if(element.id === id){
         onlineUsers.splice(index, 1);
+        lobby.emit('update-list', onlineUsers);
+        console.log('User disconnected. List: ' + onlineUsers);
       }
     });
   });

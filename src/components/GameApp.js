@@ -8,13 +8,11 @@ class GameApp extends React.Component {
   constructor() {
     super();
     this.state = {
-      onlineUsers: [],
       playerName: '',
       view: 'NewPlayerView'
     };
 
     this.updatePlayerName = this.updatePlayerName.bind(this);
-    this.updateView = this.updateView.bind(this);
   }
 
   updatePlayerName(name) {
@@ -23,10 +21,6 @@ class GameApp extends React.Component {
       view: 'LobbyView'
     });
   }
-
-  updateView(v){
-    this.setState({view: v});
-  }
  
   render() {
     switch(this.state.view){
@@ -34,7 +28,7 @@ class GameApp extends React.Component {
         return(
           <div>
             <header>
-              <span id={"title"}>Number Scrabble</span>
+              <div id={"title"}>Number Scrabble</div>
             </header>
             <div className={"main-container"}>
               <NewPlayerView updateName = {this.updatePlayerName}/>
@@ -46,12 +40,10 @@ class GameApp extends React.Component {
         return(
           <div>
             <header>
-              <span id={"title"}>Number Scrabble</span>
-              <span id={"headerPlayerName"}>Player: {this.state.playerName}</span>
+              <div id={'title'}>Number Scrabble</div>
             </header>
             <div className={"main-container"}>
-              <LobbyView 
-                updateView = {this.updateView}
+              <LobbyView
                 playerName = {this.state.playerName}
               />
             </div>
