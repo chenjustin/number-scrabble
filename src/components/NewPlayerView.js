@@ -11,7 +11,6 @@ class NewPlayerView extends React.Component {
 
 	handleChange(e){
 		this.setState({value: e.target.value});
-		console.log(this.state);
 	}
 
 	handleSubmit(e){

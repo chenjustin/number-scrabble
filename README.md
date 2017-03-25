@@ -1,6 +1,6 @@
 Number Scrabble
 ---
-Scrabble with math and numbers. This was created in order to learn and mess around with some libraries and technologies I've never used before, such as [React](https://github.com/facebook/react) and [Webpack](https://webpack.github.io/).
+Scrabble with math and numbers. This was created so I could learn and explore [React](https://github.com/facebook/react) and [Webpack](https://webpack.github.io/).
 
  
 Setup

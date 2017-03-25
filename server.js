@@ -39,6 +39,8 @@ http.listen(port, function(){
   console.log("listening on " + port);
 });
 
+/* Socket.io logic */
+
 lobby.on('connection', function(socket){
 
   // The server keeps track of all online users
