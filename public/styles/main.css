@@ -210,9 +210,14 @@ header{
 	cursor: pointer;
 }
 
-.invite-button:hover{
+.invite-button:hover:enabled{
 	background-color: #9ecaed;
 	color: 222222;
+}
+
+.invite-button:disabled{
+	background-color: #dc8181;
+	cursor: not-allowed;
 }
 
 #lobbyTitle{

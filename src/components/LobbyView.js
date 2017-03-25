@@ -13,24 +13,40 @@ class LobbyView extends React.Component {
     this.inviteOnClick = this.inviteOnClick.bind(this);
 	}
 
-  inviteOnClick(player){
+  /* 
+      Handles the onClick action for each user's invite button.
+  */
+  inviteOnClick(player, buttonState){
 
     var playerList = this.state.onlinePlayers;
     var component = this;
 
-    playerList.forEach(function(element, index){
-      if(element.playerName === player){
-        playerList[index].inviteButton = 'selfClicked';
+    // Invite a player
+    if(buttonState === 'Invite'){
+      playerList.forEach(function(element, index){
+        if(element.playerName === player){
+          element.inviteButton = 'selfClicked';
 
-        console.log(this);
-        component.setState({
-          onlinePlayers: playerList
-        })
-      }
-    });
+          // Notify the specified client that this click event occurred
 
+          socket.emit('invite-someone', 
+            {
+              sender: component.props.playerName,
+              recipient: element.socketId
+            }
+          );
 
+          component.setState({
+            onlinePlayers: playerList
+          })
+        }
+      });
+    }
 
+    // Accept an invitation
+    else{
+
+    }
   }
 
   /*
@@ -45,26 +61,98 @@ class LobbyView extends React.Component {
 
     socket = io('/lobby', {query: "playerName="+this.props.playerName});
   
+    // The server emits an updated list of users everytime there is a new connection
     socket.on('update-list', function(data){
-      // this.updateList(data);
 
-      var playerList = data;
-      var playerId;
+      var playerList = component.state.onlinePlayers;
+
       var spliceIndex;
 
+      /*
+        The user list passed from the server to the client component
+        is a list of objects with this structure:
+
+          {
+            playerName: (a string),
+            id: (an integer),
+            socketId: (unique identifier for socket.io)
+          }
+
+      */
+
+      // Remove self from the list received from the server. We don't need this
       data.forEach(function(element, index){
-        playerList[index].inviteButton = 'unclicked';
-        if(element.playerName == component.props.playerName){
-          spliceIndex = index;
+        if(element.playerName === component.props.playerName){
+          data.splice(index, 1);
         }
       });
-     
-      playerList.splice(spliceIndex, 1);
+
+      /*
+        Synchronize both lists
+      */
+      
+      data.forEach(function(element, index){
+
+        var componentListContainsUser = false;
+
+        playerList.forEach(function(elem, i){
+          if(elem.playerName === element.playerName){
+            componentListContainsUser = true;
+          }
+        });
+
+        if(!componentListContainsUser){
+          playerList.push(
+            {
+              playerName: element.playerName, 
+              id: element.id,
+              socketId: element.socketId, 
+              inviteButton: 'unclicked'
+            }
+          );
+        }
+      });
+
+      playerList.forEach(function(element, index){
+
+        var serverListContainsUser = false;
+
+        data.forEach(function(elem, i){
+          if(elem.playerName === element.playerName){
+            serverListContainsUser = true;
+          }
+        })
+
+        if(!serverListContainsUser){
+          playerList.splice(index, 1);
+        }
+      });
 
       component.setState({
         onlinePlayers: playerList
       });
     });
+
+    socket.on('someone-clicked', function(who){
+
+      var playerList = component.state.onlinePlayers;
+
+      console.log(who);
+
+      playerList.forEach(function(element, index){
+        if(element.playerName === who){
+          element.inviteButton = 'someoneClicked';
+        }
+      })
+
+      component.setState({
+        onlinePlayers: playerList
+      });
+
+      console.log(playerList);
+
+    });
+
   }
 
 
@@ -94,7 +182,8 @@ class LobbyView extends React.Component {
                           value = {'Invite'} 
                           playerName = {element.playerName} 
                           key = {element.id}
-                          onClick = {component.inviteOnClick} 
+                          onClick = {component.inviteOnClick}
+                          clickable = {true}
                         ></InviteButton>
                         {element.playerName}
                       </li>
@@ -107,7 +196,8 @@ class LobbyView extends React.Component {
                           value = {'Pending Invitation'} 
                           playerName = {element.playerName} 
                           key = {element.id}
-                          onClick ={component.inviteOnClick} 
+                          onClick ={component.inviteOnClick}
+                          clickable = {false}
                         ></InviteButton>
                         {element.playerName}
                       </li>
@@ -121,6 +211,7 @@ class LobbyView extends React.Component {
                           playerName = {element.playerName} 
                           key = {element.id}
                           onClick={component.inviteOnClick} 
+                          clickable = {true}
                         ></InviteButton>
                         {element.playerName}
                       </li>

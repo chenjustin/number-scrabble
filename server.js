@@ -44,22 +44,28 @@ http.listen(port, function(){
 lobby.on('connection', function(socket){
 
   // The server keeps track of all online users
-  onlineUsers.push({playerName: socket.handshake.query.playerName, id: idNumber});
-  var id = idNumber;
+  onlineUsers.push({playerName: socket.handshake.query.playerName, id: idNumber, socketId: socket.id});
+  var playerId = idNumber;
   idNumber++;
 
   // Not sure if this is necessary
-  if(id > 9500){
-    id = 0;
+  if(playerId > 9500){
+    playerId = 0;
   }
 
   lobby.emit('update-list', onlineUsers);
 
   console.log('User connected. List: ' + onlineUsers);
 
+  socket.on('invite-someone', function(payload){
+    console.log(payload.recipient);
+    console.log(payload.sender);
+    socket.broadcast.to(payload.recipient).emit('someone-clicked', payload.sender);
+  });
+
   socket.on('disconnect', function(){
     onlineUsers.forEach(function(element, index){
-      if(element.id === id){
+      if(element.id === playerId){
         onlineUsers.splice(index, 1);
         lobby.emit('update-list', onlineUsers);
         console.log('User disconnected. List: ' + onlineUsers);
