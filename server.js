@@ -58,8 +58,6 @@ lobby.on('connection', function(socket){
   console.log('User connected. List: ' + onlineUsers);
 
   socket.on('invite-someone', function(payload){
-    console.log(payload.recipient);
-    console.log(payload.sender);
     socket.broadcast.to(payload.recipient).emit('someone-clicked', payload.sender);
   });
 

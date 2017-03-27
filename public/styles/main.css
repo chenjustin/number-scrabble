@@ -252,3 +252,82 @@ header{
 		margin-right: 3%;
 	}
 }
+
+/* Game View */
+
+/* UI */
+.game-outer-container{
+	background-color: #272822;
+	height: calc(100% - 70px);
+	padding-top: 15px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+#GameViewContainer{
+	margin: 0 auto;
+	width: 1300px;
+}
+
+#GameBoard{
+	height: 750px;
+	width: 750px;
+	border-style: solid;
+  display: inline-block;
+  border-color: gray;
+  border-width: 1px;
+	box-sizing: content-box;
+}
+
+#GameSidebar{
+	width: 550px;
+	height: 750px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: gray;
+  display: inline-block;
+	box-sizing: content-box;
+}
+
+#GameBottombar{
+	margin-top: 5px;
+	width: 1304px;
+	height: 100px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: gray;
+}
+
+/* Board stuff */
+table{
+	border-collapse: collapse;
+}
+.tile{
+	min-width: 50px;
+	height: 50px;
+	border-style: solid;
+	border-color: gray;
+	border-width: 1px;
+	text-align: center;
+	color: white;
+	font-family: 'Rock Salt', cursive;
+}
+.tile.tile-whitespace{
+	background-color: #d4c39f;
+}
+
+.tile.tile-tripleWord{
+	background-color: #d03737;
+}
+
+.tile-doubleLetter{
+	background-color: #6b97ba;
+}
+
+.tile-doubleWord{
+	background-color: orange;
+}
+
+.tile-tripleLetter{
+	background-color: green;
+}

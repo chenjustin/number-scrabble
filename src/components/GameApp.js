@@ -1,6 +1,7 @@
 import React from 'react';
 import NewPlayerView from './NewPlayerView';
 import LobbyView from './LobbyView';
+import GameView from './GameView';
 
 var socket;
 
@@ -9,7 +10,7 @@ class GameApp extends React.Component {
     super();
     this.state = {
       playerName: '',
-      view: 'NewPlayerView'
+      view: ''
     };
 
     this.updatePlayerName = this.updatePlayerName.bind(this);
@@ -54,9 +55,11 @@ class GameApp extends React.Component {
       default:
         return(
           <div>
-            <header></header>
-            <div className={"main-container"}>
-              <NewPlayerView updateName = {this.updatePlayerName}/>
+            <header>
+              <div id={"title"}>Number Scrabble</div>
+            </header>
+            <div className={"game-outer-container"}>
+              <GameView/>
             </div>
           </div>
         );

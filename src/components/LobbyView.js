@@ -44,8 +44,8 @@ class LobbyView extends React.Component {
     }
 
     // Accept an invitation
-    else{
-
+    else if(buttonState === 'Accept Invitation'){
+      
     }
   }
 
