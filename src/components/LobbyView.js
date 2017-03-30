@@ -1,13 +1,12 @@
 import React from 'react';
 import InviteButton from './InviteButton';
 
-var socket;
-
 class LobbyView extends React.Component {
 	constructor(props){
 		super(props);
     this.state = {
-      onlinePlayers: []
+      onlinePlayers: [],
+      socketId: null
     }
 
     this.inviteOnClick = this.inviteOnClick.bind(this);
@@ -23,19 +22,25 @@ class LobbyView extends React.Component {
 
     // Invite a player
     if(buttonState === 'Invite'){
+
+      // Iterate through 'playerList' to find the player whose inviteButton was clicked.
       playerList.forEach(function(element, index){
         if(element.playerName === player){
           element.inviteButton = 'selfClicked';
 
           // Notify the specified client that this click event occurred
 
-          socket.emit('invite-someone', 
+          component.props.socket.emit('invite-someone', 
             {
               sender: component.props.playerName,
               recipient: element.socketId
             }
           );
 
+          /*
+            Update the onlinePlayers array, because it also
+            contains the state of the each invite button.
+          */
           component.setState({
             onlinePlayers: playerList
           })
@@ -43,8 +48,32 @@ class LobbyView extends React.Component {
       });
     }
 
-    // Accept an invitation
+    /*
+      Clicking the button to accept another user's invitation.
+
+      First, this client will emit a 'accepted-invite' message
+      to the server.
+
+      Once the server gets this message, it will emit a 'join-room'
+      message to both the 'accepter' and the 'inviter'.
+
+      This 'initiate-join-room' message will contain the 5 digit room code,
+      and it will also trigger the client to change the current view to
+      'GameView'.
+    */
     else if(buttonState === 'Accept Invitation'){
+      
+      playerList.forEach(function(element, index) {
+        if(element.playerName === player){
+          console.log(component.state.socketId);
+          component.props.socket.emit('accepted-invite',
+            {
+              accepter: component.state.socketId,
+              inviter: element.socketId
+            }
+          );
+        }
+      });
       
     }
   }
@@ -59,14 +88,17 @@ class LobbyView extends React.Component {
 
     var component = this;
 
-    socket = io('/lobby', {query: "playerName="+this.props.playerName});
-  
+    /*
+      Notify the server of this new connection so the server can update
+      its list of users.
+    */
+    this.props.socket.emit('new-user', {playerName: component.props.playerName}); 
+    
     // The server emits an updated list of users everytime there is a new connection
-    socket.on('update-list', function(data){
+    this.props.socket.on('update-list', function(data){
 
       var playerList = component.state.onlinePlayers;
-
-      var spliceIndex;
+      var mySocketId;
 
       /*
         The user list passed from the server to the client component
@@ -80,9 +112,10 @@ class LobbyView extends React.Component {
 
       */
 
-      // Remove self from the list received from the server. We don't need this
+      // Remove self from the list received from the server.
       data.forEach(function(element, index){
         if(element.playerName === component.props.playerName){
+          mySocketId = element.socketId;
           data.splice(index, 1);
         }
       });
@@ -129,15 +162,14 @@ class LobbyView extends React.Component {
       });
 
       component.setState({
-        onlinePlayers: playerList
+        onlinePlayers: playerList,
+        socketId: mySocketId
       });
     });
 
-    socket.on('someone-clicked', function(who){
+    this.props.socket.on('someone-clicked', function(who){
 
       var playerList = component.state.onlinePlayers;
-
-      console.log(who);
 
       playerList.forEach(function(element, index){
         if(element.playerName === who){
@@ -149,8 +181,12 @@ class LobbyView extends React.Component {
         onlinePlayers: playerList
       });
 
-      console.log(playerList);
+    });
 
+    this.props.socket.on('initiate-join-room', function(room){
+      console.log('initiate-join-room');
+      component.props.socket.emit('join-room', room);
+      component.props.joinGameRoom(room);
     });
 
   }

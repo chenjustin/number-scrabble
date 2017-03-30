@@ -18,6 +18,9 @@ var lobby = io.of('lobby');
 // online users
 var onlineUsers = [];
 var idNumber = 0;
+
+// room list
+var rooms = [];
  
 app.use(express.static(__dirname + '/public'));
  
@@ -43,26 +46,47 @@ http.listen(port, function(){
 
 lobby.on('connection', function(socket){
 
-  // The server keeps track of all online users
-  onlineUsers.push({playerName: socket.handshake.query.playerName, id: idNumber, socketId: socket.id});
   var playerId = idNumber;
   idNumber++;
+  console.log("playerid: "+playerId);
 
-  // Not sure if this is necessary
-  if(playerId > 9500){
-    playerId = 0;
-  }
+  socket.on('new-user', function(payload){
 
-  lobby.emit('update-list', onlineUsers);
+    // The server keeps track of all online users
+    onlineUsers.push(
+        {
+          playerName: payload.playerName, 
+          id: playerId, 
+          socketId: socket.id,
+          inGame: false
+        }
 
-  console.log('User connected. List: ' + onlineUsers);
+      );
 
+    lobby.emit('update-list', onlineUsers);
+    console.log('User connected. List: ' + onlineUsers);
+  })
+
+  // When someone clicks the 'invite' button, we have to notify
+  // the invited user's client
   socket.on('invite-someone', function(payload){
     socket.broadcast.to(payload.recipient).emit('someone-clicked', payload.sender);
   });
 
+  socket.on('accepted-invite', function(payload){
+    var newRoom = generateRoomCode();
+    socket.broadcast.to(payload.inviter).emit('initiate-join-room', newRoom);
+    socket.broadcast.to(payload.accepter).emit('initiate-join-room', newRoom);
+  });
+
+  socket.on('join-room', function(room){
+    socket.join(room);
+  });
+
+
   socket.on('disconnect', function(){
     onlineUsers.forEach(function(element, index){
+      console.log("loop id: " + element.id);
       if(element.id === playerId){
         onlineUsers.splice(index, 1);
         lobby.emit('update-list', onlineUsers);
@@ -72,6 +96,18 @@ lobby.on('connection', function(socket){
   });
 
 });
+
+function generateRoomCode(){
+  var code = "";
+  var charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+  for(var i = 0; i < 5; i++){
+    code += charSet.charAt(Math.floor(Math.random() * charSet.length));
+  }
+  return code;
+}
+
+
 
 /*
 io.on('connection', function(socket){

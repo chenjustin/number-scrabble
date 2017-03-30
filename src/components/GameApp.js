@@ -10,10 +10,13 @@ class GameApp extends React.Component {
     super();
     this.state = {
       playerName: '',
-      view: ''
+      view: 'NewPlayerView',
+      socket: '',
+      room: ''
     };
 
     this.updatePlayerName = this.updatePlayerName.bind(this);
+    this.joinGameRoom = this.joinGameRoom.bind(this);
   }
 
   updatePlayerName(name) {
@@ -21,6 +24,20 @@ class GameApp extends React.Component {
       playerName: name,
       view: 'LobbyView'
     });
+  }
+
+  joinGameRoom(room){
+    this.setState({
+      view: 'GameView',
+      room: room
+    });
+  }
+
+  componentDidMount(){
+    socket = io('/lobby');
+    this.setState({
+      socket: socket
+    })
   }
  
   render() {
@@ -46,11 +63,24 @@ class GameApp extends React.Component {
             <div className={"main-container"}>
               <LobbyView
                 playerName = {this.state.playerName}
+                joinGameRoom = {this.joinGameRoom}
+                socket = {this.state.socket}
               />
             </div>
           </div>
         );
 
+      case "GameView":
+        return(
+          <div>
+            <header>
+              <div id={"title"}>Number Scrabble</div>
+            </header>
+            <div className={"game-outer-container"}>
+              <GameView/>
+            </div>
+          </div>
+        );
 
       default:
         return(
