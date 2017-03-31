@@ -5,8 +5,7 @@ class LobbyView extends React.Component {
 	constructor(props){
 		super(props);
     this.state = {
-      onlinePlayers: [],
-      socketId: null
+      onlinePlayers: []
     }
 
     this.inviteOnClick = this.inviteOnClick.bind(this);
@@ -51,27 +50,67 @@ class LobbyView extends React.Component {
     /*
       Clicking the button to accept another user's invitation.
 
+      Step 1:
       First, this client will emit a 'accepted-invite' message
       to the server.
-
+      
+      Step 2:
       Once the server gets this message, it will emit a 'join-room'
-      message to both the 'accepter' and the 'inviter'.
+      message to both the user who accepted the invitation as
+      well as the 'inviter'.
 
       This 'initiate-join-room' message will contain the 5 digit room code,
       and it will also trigger the client to change the current view to
       'GameView'.
+      
+      Step 3:
+      Finally, 'initiate-join-room' will send one final 'join-room' message to the server,
+      so the server can make that particular socket join the specified room.
+
+      Diagram for reference:
+
+      Inviter's lobby
+      ___________________________________________________________________________      
+      | Players                                                                 |
+      ___________________________________________________________________________   
+      |'accepter'                                               (Invite pending)|   
+      |                                                                         | 
+      ___________________________________________________________________________
+
+                                ^                             |
+                      Step 2    |                   Step 3    |
+                                |                             |   
+                              ('initiate-               ('join-room', room)
+                              join-room', newRoom)            |
+                                |                             |
+                                |                             v
+      __________________________________________________________________________
+      |                                                                        |
+      |         Server                                                         |
+      |________________________________________________________________________|
+
+             ^                  |                             ^
+    Step 1   |        Step 2    |                   Step 3    |
+             |                  |                             |
+      ('accepted          ('initiate-                   ('join-room', room)
+        invite', inviter)  join-room', newRoom)               |
+             |                  |                             |
+             |                  v                             |
+  
+      Accepter's lobby
+      ___________________________________________________________________________      
+      | Players                                                                 |
+      ___________________________________________________________________________   
+      |'inviter'                                                        (Accept)|   
+      |                                                                         | 
+      ___________________________________________________________________________
+
     */
     else if(buttonState === 'Accept Invitation'){
       
       playerList.forEach(function(element, index) {
         if(element.playerName === player){
-          console.log(component.state.socketId);
-          component.props.socket.emit('accepted-invite',
-            {
-              accepter: component.state.socketId,
-              inviter: element.socketId
-            }
-          );
+          component.props.socket.emit('accepted-invite',element.socketId);
         }
       });
       
@@ -98,7 +137,6 @@ class LobbyView extends React.Component {
     this.props.socket.on('update-list', function(data){
 
       var playerList = component.state.onlinePlayers;
-      var mySocketId;
 
       /*
         The user list passed from the server to the client component
@@ -115,7 +153,6 @@ class LobbyView extends React.Component {
       // Remove self from the list received from the server.
       data.forEach(function(element, index){
         if(element.playerName === component.props.playerName){
-          mySocketId = element.socketId;
           data.splice(index, 1);
         }
       });
@@ -162,8 +199,7 @@ class LobbyView extends React.Component {
       });
 
       component.setState({
-        onlinePlayers: playerList,
-        socketId: mySocketId
+        onlinePlayers: playerList
       });
     });
 

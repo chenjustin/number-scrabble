@@ -106,6 +106,6 @@ module.exports = function(){
   		}
   		tiles.push(<tr key={i}>{row}</tr>);
   	}
-
+  	
   	return tiles;
 }

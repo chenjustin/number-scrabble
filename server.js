@@ -21,7 +21,7 @@ var idNumber = 0;
 
 // room list
 var rooms = [];
- 
+
 app.use(express.static(__dirname + '/public'));
  
 app.use(webpackDevMiddleware(compiler, {
@@ -73,10 +73,12 @@ lobby.on('connection', function(socket){
     socket.broadcast.to(payload.recipient).emit('someone-clicked', payload.sender);
   });
 
-  socket.on('accepted-invite', function(payload){
+  socket.on('accepted-invite', function(inviter){
     var newRoom = generateRoomCode();
-    socket.broadcast.to(payload.inviter).emit('initiate-join-room', newRoom);
-    socket.broadcast.to(payload.accepter).emit('initiate-join-room', newRoom);
+
+    socket.emit('initiate-join-room', newRoom);
+    socket.broadcast.to(inviter).emit('initiate-join-room', newRoom);
+    rooms.push(newRoom);
   });
 
   socket.on('join-room', function(room){
@@ -86,7 +88,6 @@ lobby.on('connection', function(socket){
 
   socket.on('disconnect', function(){
     onlineUsers.forEach(function(element, index){
-      console.log("loop id: " + element.id);
       if(element.id === playerId){
         onlineUsers.splice(index, 1);
         lobby.emit('update-list', onlineUsers);

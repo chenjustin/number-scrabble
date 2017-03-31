@@ -311,6 +311,10 @@ table{
 	text-align: center;
 	color: white;
 	font-family: 'Rock Salt', cursive;
+ -moz-user-select: -moz-none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+	cursor: default;
 }
 .tile.tile-whitespace{
 	background-color: #d4c39f;
