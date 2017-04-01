@@ -43,56 +43,22 @@ class GameApp extends React.Component {
   render() {
     switch(this.state.view){
       case "NewPlayerView":
-        return(
-          <div>
-            <header>
-              <div id={"title"}>Number Scrabble</div>
-            </header>
-            <div className={"main-container"}>
-              <NewPlayerView updateName = {this.updatePlayerName}/>
-            </div>
-          </div>
-        );
+        return <NewPlayerView updateName = {this.updatePlayerName}/>
 
       case "LobbyView":
         return(
-          <div>
-            <header>
-              <div id={'title'}>Number Scrabble</div>
-            </header>
-            <div className={"main-container"}>
-              <LobbyView
-                playerName = {this.state.playerName}
-                joinGameRoom = {this.joinGameRoom}
-                socket = {this.state.socket}
-              />
-            </div>
-          </div>
+          <LobbyView
+            playerName = {this.state.playerName}
+            joinGameRoom = {this.joinGameRoom}
+            socket = {this.state.socket} />
         );
 
       case "GameView":
-        return(
-          <div>
-            <header>
-              <div id={"title"}>Number Scrabble</div>
-            </header>
-            <div className={"game-outer-container"}>
-              <GameView/>
-            </div>
-          </div>
-        );
+        return(<GameView/>);
 
       default:
         return(
-          <div>
-            <header>
-              <div id={"title"}>Number Scrabble</div>
-            </header>
-            <div className={"game-outer-container"}>
-              <GameView/>
-            </div>
-          </div>
-        );
+          <GameView/>);
     }
   }
 }

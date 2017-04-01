@@ -26,17 +26,19 @@ class GameView extends React.Component {
   render() {
 
 		return (
-			<div className={'view-container'} id={'GameViewContainer'}>
-				<div id={'GameBoard'}>
-					<table>
-						<tbody>
-							{this.state.board}
-						</tbody>
-					</table>
-				</div>
-				<div id={'GameSidebar'}>
-				</div>
-				<div id={'GameBottombar'}>
+			<div id={'Game-View-Wrapper'}>
+				<div id={'game-inner-wrapper'}>
+					<div id={'GameBoard'}>
+						<table>
+							<tbody>
+								{this.state.board}
+							</tbody>
+						</table>
+					</div>
+					<div id={'GameSidebar'}>
+					</div>
+					<div id={'GameBottombar'}>
+					</div>
 				</div>
 			</div>
     );

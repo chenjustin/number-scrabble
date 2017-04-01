@@ -51,8 +51,8 @@ class LobbyView extends React.Component {
       Clicking the button to accept another user's invitation.
 
       Step 1:
-      First, this client will emit a 'accepted-invite' message
-      to the server.
+      First, this client (the accepter) will emit a 'accepted-invite' message
+      to the server by clicking "Accept invitation".
       
       Step 2:
       Once the server gets this message, it will emit a 'join-room'
@@ -234,64 +234,68 @@ class LobbyView extends React.Component {
 
     if(this.state.onlinePlayers.length === 0){
       return (
-        <div className={'view-container'} id={'lobbyContainer'}>
-          <div id={'lobbyTitle'}><h1>Players</h1></div>
-          <p>No players are currently in the lobby</p>
+        <div id={'lobby-wrapper'}>
+          <div id={'lobby-box'}>
+            <div id={'lobbyHeader'}><h1>Players</h1></div>
+            <p>No players are currently in the lobby</p>
+          </div>
         </div>
       )
     }
     else{
       return (
-        <div className={'view-container'} id={'lobbyContainer'}>
-          <div id={'lobbyTitle'}><h1>Players</h1></div>
-            <ul>
-              {
-                this.state.onlinePlayers.map(function(element){
-                  if(element.inviteButton === 'unclicked'){
-                    return(
-                      <li className={'online-player-list-item'} key={element.id}>
-                        <InviteButton 
-                          value = {'Invite'} 
-                          playerName = {element.playerName} 
-                          key = {element.id}
-                          onClick = {component.inviteOnClick}
-                          clickable = {true}
-                        ></InviteButton>
-                        {element.playerName}
-                      </li>
-                    )
-                  }
-                  else if(element.inviteButton === 'selfClicked'){
-                    return(
-                      <li className={'online-player-list-item'} key={element.id}>
-                        <InviteButton 
-                          value = {'Pending Invitation'} 
-                          playerName = {element.playerName} 
-                          key = {element.id}
-                          onClick ={component.inviteOnClick}
-                          clickable = {false}
-                        ></InviteButton>
-                        {element.playerName}
-                      </li>
-                    )
-                  }
-                  else{
-                    return(
-                      <li className={'online-player-list-item'} key={element.id}>
-                        <InviteButton 
-                          value = {'Accept Invitation'} 
-                          playerName = {element.playerName} 
-                          key = {element.id}
-                          onClick={component.inviteOnClick} 
-                          clickable = {true}
-                        ></InviteButton>
-                        {element.playerName}
-                      </li>
-                    )
-                  }
-                })
-              }
-            </ul>
+        <div id={'lobby-wrapper'}>
+          <div id={'lobby-box'}>
+            <div id={'lobbyHeader'}><h1>Players</h1></div>
+              <ul>
+                {
+                  this.state.onlinePlayers.map(function(element){
+                    if(element.inviteButton === 'unclicked'){
+                      return(
+                        <li key={element.id}>
+                          <InviteButton 
+                            value = {'Invite'} 
+                            playerName = {element.playerName} 
+                            key = {element.id}
+                            onClick = {component.inviteOnClick}
+                            clickable = {true}
+                          ></InviteButton>
+                          {element.playerName}
+                        </li>
+                      )
+                    }
+                    else if(element.inviteButton === 'selfClicked'){
+                      return(
+                        <li key={element.id}>
+                          <InviteButton 
+                            value = {'Pending Invitation'} 
+                            playerName = {element.playerName} 
+                            key = {element.id}
+                            onClick ={component.inviteOnClick}
+                            clickable = {false}
+                          ></InviteButton>
+                          {element.playerName}
+                        </li>
+                      )
+                    }
+                    else{
+                      return(
+                        <li key={element.id}>
+                          <InviteButton 
+                            value = {'Accept Invitation'} 
+                            playerName = {element.playerName} 
+                            key = {element.id}
+                            onClick={component.inviteOnClick} 
+                            clickable = {true}
+                          ></InviteButton>
+                          {element.playerName}
+                        </li>
+                      )
+                    }
+                  })
+                }
+              </ul>
+          </div>
         </div>
       );
     }

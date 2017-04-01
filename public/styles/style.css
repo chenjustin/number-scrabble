@@ -1,4 +1,3 @@
-
 *, *:after, *:before{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6,7 +5,7 @@
 }
 
 html, body{
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	min-width: 630px;
 	margin: 0;
@@ -48,11 +47,13 @@ header{
 /* Main area */
 
 .main-container{
+	/* #272822 */
 	background-color: #272822;
-	height: calc(100% - 70px);
+	height: calc(100%);
 	padding-top: 150px;
 	padding-left: 250px;
 	padding-right: 250px;
+	box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 1620px){
@@ -77,33 +78,28 @@ header{
 }
 
 .view-container{
-
 	white-space: nowrap;
 }
 
 /* NewPlayerView */
 
 #newUserInput{
-	width: calc(100% - 100px);
+	width: 600px;
 	height: 80px;
-	margin-top: 125px;
 	padding: 10px;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 33px;
 	vertical-align: bottom;
-	border-width: 5px;
-	border-color: #D3CC99;
+	border-width: 2px;
+	border-color: #9f9f9f;
 	border-style: solid;
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
 
 #newUserInput:focus{
-	border-width: 5px;
 	border-color: #9ecaed;
 	outline: none;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
 }
 
 #newUserInput:hover{
@@ -117,8 +113,8 @@ header{
 	font-family: Tahoma, Geneva, sans-serif;
 	color: #272822;
 	font-size: 40px;
-	border-color: #D3CC99;
-	border-width: 5px;
+	border-color: #9f9f9f;
+	border-width: 2px;
 	border-style: solid;
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
@@ -171,14 +167,14 @@ header{
 	margin-left: 20%;
 	margin-right: 20%;
 	border-style: solid;
-	border-width: 2px;
+	border-width: 1px;
 	border-radius: 4px;
-	border-color: #D3CC99;
+	border-color: #b9b9b9;
 	background-color: #EAEAEA;
 	height: 480px;
 	font-family: Raleway, sans-serif;
-	color: #675435;
-	box-shadow: 5px 7px 5px black;
+	font-size: 10px;
+	color: #979797;
 	overflow-y: auto;
 }
 
@@ -188,6 +184,14 @@ header{
 	font-weight: bolder;
 	font-size: 20px;
 	color: #453213;
+}
+
+#lobbyHeader{
+	background-color: #f0f0f0;
+	padding: 12px 0px 12px 12px;
+	border-bottom-style: solid;
+	border-bottom-color: #b9b9b9;
+	border-bottom-width: 1px;
 }
 
 .online-player-list-item:nth-child(even) {
@@ -218,11 +222,6 @@ header{
 .invite-button:disabled{
 	background-color: #dc8181;
 	cursor: not-allowed;
-}
-
-#lobbyTitle{
-	background-color: #d3cc99;
-	padding: 4px 0px 4px 12px;
 }
 
 @media (max-width: 1620px){
@@ -257,11 +256,12 @@ header{
 
 /* UI */
 .game-outer-container{
-	background-color: #272822;
+	background-color: #e0e0e0;
 	height: calc(100% - 70px);
 	padding-top: 15px;
 	padding-left: 50px;
 	padding-right: 50px;
+	box-shadow: inset 0 0 250px #7a7a7a;
 }
 
 #GameViewContainer{
@@ -317,7 +317,7 @@ table{
 	cursor: default;
 }
 .tile.tile-whitespace{
-	background-color: #d4c39f;
+	background-color: #e9e9e9;
 }
 
 .tile.tile-tripleWord{
