@@ -9,10 +9,10 @@ class BoardTile extends React.Component {
 		}
 	}
 
-  render() {
+	render() {
 		return (
 			<td className={this.props.tileType}>{this.props.text}</td>
-    );
-  }
+			);
+	}
 }
 export default BoardTile;

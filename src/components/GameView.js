@@ -23,7 +23,7 @@ class GameView extends React.Component {
 
 	}
 
-  render() {
+	render() {
 
 		return (
 			<div id={'Game-View-Wrapper'}>
@@ -31,17 +31,15 @@ class GameView extends React.Component {
 					<div id={'GameBoard'}>
 						<table>
 							<tbody>
-								{this.state.board}
+							{this.state.board}
 							</tbody>
 						</table>
 					</div>
-					<div id={'GameSidebar'}>
-					</div>
-					<div id={'GameBottombar'}>
-					</div>
+					<div id={'GameSidebar'}></div>
+					<div id={'GameBottombar'}></div>
 				</div>
 			</div>
-    );
-  }
+			);
+	}
 }
 export default GameView;

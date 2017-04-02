@@ -1,5 +1,5 @@
 import React from 'react';
- 
+
 class NewPlayerView extends React.Component {
 	constructor(props){
 		super(props);
@@ -19,15 +19,15 @@ class NewPlayerView extends React.Component {
 			this.props.updateName(this.state.value);
 		}
 	}
-  render() {
-    return (
-      <div id={"new-user-wrapper"}>
-      	<form onSubmit={this.handleSubmit}>
-    			<input type="text" value={this.state.value} id={"newUserInput"} onChange={this.handleChange} placeholder={"Enter your name to begin"}/>
-      		<input type="submit" value=">" id={"newUserButton"}/>
-      	</form>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div id={"new-user-wrapper"}>
+				<form onSubmit={this.handleSubmit}>
+					<input type="text" value={this.state.value} id={"newUserInput"} onChange={this.handleChange} placeholder={"Enter your name to begin"}/>
+					<input type="submit" value=">" id={"newUserButton"}/>
+				</form>
+			</div>
+			);
+	}
 }
 export default NewPlayerView;

@@ -12,16 +12,6 @@ const port = process.env.PORT || 3000;
  
 const compiler = webpack(webpackConfig);
 
-// lobby socket
-var lobby = io.of('lobby');
-
-// online users
-var onlineUsers = [];
-var idNumber = 0;
-
-// room list
-var rooms = [];
-
 app.use(express.static(__dirname + '/public'));
  
 app.use(webpackDevMiddleware(compiler, {
@@ -43,6 +33,17 @@ http.listen(port, function(){
 });
 
 /* Socket.io logic */
+
+// lobby socket
+var lobby = io.of('lobby');
+
+// online users
+var onlineUsers = [];
+var idNumber = 0;
+
+// room list
+var rooms = [];
+
 
 lobby.on('connection', function(socket){
 
